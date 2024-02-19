@@ -1,17 +1,19 @@
 import { ChangeEvent, useState } from 'react'
 import { Button, Form, Segment } from 'semantic-ui-react'
 import { Activity } from '../../../App/models/activity'
+import { useStore } from '../../../App/stores/store';
 
 interface Props{
-    activity: Activity | undefined;
-    closeForm: () => void;
     createOrEdit:  (activity: Activity) => void
     submitting: boolean;
 }
 
-export default function ActivityForm({activity: SelectedActivity, closeForm, createOrEdit, submitting}: Props) {
+export default function ActivityForm({createOrEdit, submitting}: Props) {
 
-  const initalState = SelectedActivity ?? {
+  const {activityStore} = useStore();
+  const {closeForm, selectedActivity} = activityStore;
+
+  const initalState = selectedActivity ?? {
     id: '',
     title: '',
     date: '',
